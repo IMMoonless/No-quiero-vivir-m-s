@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factoring Loan Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Factoring Loan Calculator</h1>
+        
+        <div class="tab no-print">
+            <button class="tablinks active" onclick="openTab(event, 'calculator')">Calculator</button>
+            <button class="tablinks" onclick="openTab(event, 'statement')">Monthly Statement</button>
+        </div>
+        
+        <div id="calculator" class="tabcontent" style="display: block;">
+            <div class="form-group">
+                <h2>Loan Settings</h2>
+                <div class="input-section">
+                    <div class="form-group">
+                        <label for="loanName">Loan Name:</label>
+                        <input type="text" id="loanName" placeholder="e.g., NU-KO CAPITAL, LLC">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="borrowerName">Borrower Name:</label>
+                        <input type="text" id="borrowerName" placeholder="e.g., NU-KO CAPITAL, LLC">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="startDate">Start Date:</label>
+                        <input type="date" id="startDate">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="initialBalance">Initial Outstanding Balance:</label>
+                        <input type="number" id="initialBalance" placeholder="e.g., 4000000.00" step="0.01">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="interestRate">Annual Interest Rate (%):</label>
+                        <input type="number" id="interestRate" placeholder="e.g., 7.5" step="0.01">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="monthlyServiceFee">Monthly Service Fee:</label>
+                        <input type="number" id="monthlyServiceFee" placeholder="e.g., 1500.00" step="0.01">
+                    </div>
+                </div>
+            </div>
+            
+            <h2>Daily Transactions</h2>
+            <div class="form-group">
+                <label for="transactionDate">Transaction Date:</label>
+                <input type="date" id="transactionDate">
+            </div>
+            
+            <div class="input-section">
+                <div class="form-group">
+                    <label for="advanceAmount">Advance Amount:</label>
+                    <input type="number" id="advanceAmount" placeholder="0.00" step="0.01">
+                </div>
+                
+                <div class="form-group">
+                    <label for="adjustmentAmount">Adjustment Amount:</label>
+                    <input type="number" id="adjustmentAmount" placeholder="0.00" step="0.01">
+                </div>
+            </div>
+            
+            <button id="addTransaction">Add Transaction</button>
+            
+            <h3>Transactions</h3>
+            <div style="overflow-x: auto;">
+                <table id="transactionsTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Total Advances</th>
+                            <th>Adjustments</th>
+                            <th>Loan Cash</th>
+                            <th>Outstanding Loan Balance</th>
+                            <th class="center-align">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Transactions will be added here -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="summary">
+                <div class="summary-item">
+                    <div class="summary-label">Total Advances:</div>
+                    <div id="totalAdvances">$0.00</div>
+                </div>
+                
+                <div class="summary-item">
+                    <div class="summary-label">Total Adjustments:</div>
+                    <div id="totalAdjustments">$0.00</div>
+                </div>
+                
+                <div class="summary-item">
+                    <div class="summary-label">Total Loan Cash:</div>
+                    <div id="totalLoanCash">$0.00</div>
+                </div>
+                
+                <div class="summary-item">
+                    <div class="summary-label">Current Balance:</div>
+                    <div id="currentBalance">$0.00</div>
+                </div>
+                
+                <div class="summary-item">
+                    <div class="summary-label">Total Interest:</div>
+                    <div id="totalInterest">$0.00</div>
+                </div>
+                
+                <div class="summary-item">
+                    <div class="summary-label">Total Fees:</div>
+                    <div id="totalFees">$0.00</div>
+                </div>
+            </div>
+            
+            <div class="button-group no-print">
+                <button class="export-btn" id="generateStatement">Generate Monthly Statement</button>
+                <button class="reset-btn" id="resetCalculator">Reset Calculator</button>
+            </div>
+        </div>
+        
+        <div id="statement" class="tabcontent">
+            <div class="print-only">
+                <div class="statement-header">
+                    <h1>Monthly Interest Statement</h1>
+                    <p id="statementDate"></p>
+                </div>
+                
+                <div>
+                    <div><strong>Borrower - </strong><span id="statementBorrower"></span></div>
+                    <div><strong>Loan - </strong><span id="statementLoanName"></span></div>
+                </div>
+            </div>
+            
+            <div class="no-print">
+                <h2>Monthly Interest Statement</h2>
+                <p>The statement below is generated based on your input data.</p>
+            </div>
+            
+            <div style="overflow-x: auto;">
+                <table id="statementTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Total Advances</th>
+                            <th>Adjustments</th>
+                            <th>Loan Cash</th>
+                            <th>Outstanding Loan Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Statement data will be added here -->
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Total:</th>
+                            <td id="statementTotalAdvances"></td>
+                            <td id="statementTotalAdjustments"></td>
+                            <td id="statementTotalLoanCash"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>Average:</th>
+                            <td id="statementAvgAdvances"></td>
+                            <td id="statementAvgAdjustments"></td>
+                            <td id="statementAvgLoanCash"></td>
+                            <td id="statementAvgBalance"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <table style="width: 50%; margin-left: auto;">
+                    <tr>
+                        <td>Monthly Service Fee:</td>
+                        <td id="statementMonthlyFee"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Interest:</td>
+                        <td id="statementTotalInterest"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Fees:</td>
+                        <td id="statementTotalFees"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total Interest & Fees:</strong></td>
+                        <td id="statementTotalInterestAndFees"></td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="button-group no-print">
+                <button class="export-btn" id="printStatement">Print Statement</button>
+                <button id="backToCalculator">Back to Calculator</button>
+            </div>
+        </div>
+    </div>
+ <script src="script.js"></script>
+   
+</body>
+</html>
